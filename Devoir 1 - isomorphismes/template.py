@@ -116,8 +116,8 @@ def are_iso_with_colors(A, B, color=color_ones):
 
     perms = list(itertools.permutations(nlist))
 
-    colorA = color_degree(A)
-    colorB = color_degree(B)
+    colorA = color(A)
+    colorB = color(B)
 
     for x in range(0, len(perms)):
         permsx = perms[x]
