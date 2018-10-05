@@ -118,7 +118,6 @@ def color_k_neigh(A, k):
         klist[x][x] = 1
 
     for x in range(1, k):
-        print("hi")
         for i in range(len(Ak)):
             for j in range(len(A[0])):
                 for k in range(len(A)):
@@ -134,8 +133,6 @@ def color_k_neigh(A, k):
             if klist[i][j] == 0 and Ak[i][j] != 0:
                 tuplist[i].append((k, sum(A[j])))
         sorted(tuplist[i], key=lambda tup: tup[1])
-
-
 
     return tuplist
      
