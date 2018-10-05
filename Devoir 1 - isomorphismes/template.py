@@ -61,9 +61,7 @@ def color_ones(A):
 
     color = []
     for x in range(0, len(A)):
-        color.append([])
-        for y in range(0, len(A)):
-            color[x].append(1)
+        color.append(1)
 
     return color
 
@@ -150,29 +148,53 @@ def are_iso_with_colors(A, B, color=color_ones):
 
     n = len(A)
 
-    nlist = []
-    for x in range(0, n):
-        nlist.append(x)
-
-    perms = list(itertools.permutations(nlist))
-
     colorA = color(A)
     colorB = color(B)
-    flag = 0
 
-    for x in range(0, len(perms)):
-        permsx = perms[x]
-        for y in range(0, n):
-            if colorA[y] != colorB[permsx[y]]:
+    Aused = []
+    Bused = []
+    for x in range(0, n):
+        Aused.append(n+1)
+        Bused.append(n+1)
+
+    def same_edges(A, B, h, i):
+        for x in range(0, n):
+            if h[x] != n+1 and A[i][x] != B[h[i]][h[x]]:
+                return False
+        return True
+
+    def isom_color(A, B, h, hinv, i):
+        if i != n+1 and not same_edges(A, B, h, i):
+            return False, h
+        flag = 0
+        for x in range(0, n):
+            if h[x] == n+1:
                 flag = 1
                 break
+        if flag == 0:
+            return True, h
+        for nodeA in range(0, n):
+            if h[nodeA] == n+1:
+                for nodeB in range(0, n):
+                    if hinv[nodeB] == n+1 and colorA[nodeA] == colorB[nodeB]:
+                        print(nodeA)
+                        print(nodeB)
+                        h[nodeA] = nodeB
+                        hinv[nodeB] = nodeA
+                        boole, h = isom_color(A, B, h, hinv, nodeA)
+                        if boole:
+                            return True, h
+                        elif h:
+                            h[nodeA] = n+1
+                            hinv[nodeB] = n+1
+                        else:
+                            return False, []
 
-        if flag == 0 and check_mapping(A, B, permsx):
-            return True, permsx
+                if h[nodeA] == n+1:
+                    return False, []
+        return False, []
 
-        flag = 0
-
-    return False, []
+    return isom_color(A, B, Aused, Bused, n+1)
 
 
 if __name__ == "__main__":
@@ -195,11 +217,13 @@ if __name__ == "__main__":
             B.append([int(x) for x in lines[j]])  
             
     # Compute answer
-     
-    # are_iso, h = are_iso_with_colors(A, B, color_ones)
-    # are_iso, h = are_iso(A, B)
-    # are_iso, h = are_iso_with_colors(A, B, color_degree)
-    are_iso, h = are_iso_with_colors(A, B, lambda x: color_k_neigh(x, 2))
+
+    for i in range(0, 1000):
+        are_iso, h = are_iso_with_colors(A, B, color_ones)
+    #are_iso, h = are_iso(A, B)
+    #for i in range(0, 1000):
+    #    are_iso, h = are_iso_with_colors(A, B, color_degree)
+    # are_iso, h = are_iso_with_colors(A, B, lambda x: color_k_neigh(x, 2))
      
     # Check results
 
