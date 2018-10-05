@@ -6,6 +6,7 @@
 
 import itertools
 import csv
+from timeit import default_timer as timer
 
 
 def check_mapping(A, B, h):
@@ -92,9 +93,51 @@ def color_k_neigh(A, k):
     The colors have to be structured as a sorted tuple of pairs (k, deg(v)) 
     """
 
-    # TO COMPLETE
-            
-    return []
+    n = len(A)
+
+    tuplist = []
+    for x in range(0, n):
+        tuplist.append([])
+
+    Ak = A
+
+    if k == 0:
+        for i in range(0, n):
+            tuplist.append((0, sum(A[i])))
+        return tuplist
+
+    if k == 1:
+        for i in range(0, n):
+            for j in range(0, n):
+                if A[i][j] != 0:
+                    tuplist[i].append((1, sum(A[j])))
+        return tuplist
+
+    klist = A
+    for x in range(0, n):
+        klist[x][x] = 1
+
+    for x in range(1, k):
+        print("hi")
+        for i in range(len(Ak)):
+            for j in range(len(A[0])):
+                for k in range(len(A)):
+                    Ak[i][j] += Ak[i][k] * A[k][j]
+        if x != k:
+            for i in range(0, n):
+                for j in range(i, n):
+                    if Ak[i][j] != 0:
+                        klist[i][j] = 1
+
+    for i in range(0, n):
+        for j in range(i, n):
+            if klist[i][j] == 0 and Ak[i][j] != 0:
+                tuplist[i].append((k, sum(A[j])))
+        sorted(tuplist[i], key=lambda tup: tup[1])
+
+
+
+    return tuplist
      
 
 def are_iso_with_colors(A, B, color=color_ones):
@@ -104,7 +147,7 @@ def are_iso_with_colors(A, B, color=color_ones):
         - color a coloring function
     Return (Ans, h) using the coloring heuristic with :
         - Ans = True if A and B are isomorphic, False otherwise
-        - h describe an isomorphism such that h(A) = B if Ans = True, h = [] otherwise
+        - h describes an isomorphism such that h(A) = B if Ans = True, h = [] otherwise
     
     """
 
@@ -118,20 +161,26 @@ def are_iso_with_colors(A, B, color=color_ones):
 
     colorA = color(A)
     colorB = color(B)
+    flag = 0
 
     for x in range(0, len(perms)):
         permsx = perms[x]
         for y in range(0, n):
             if colorA[y] != colorB[permsx[y]]:
+                flag = 1
                 break
 
-        if check_mapping(A, B, permsx):
+        if flag == 0 and check_mapping(A, B, permsx):
             return True, permsx
+
+        flag = 0
 
     return False, []
 
 
 if __name__ == "__main__":
+
+    start = timer()
 
     # Read Input
     
@@ -151,8 +200,9 @@ if __name__ == "__main__":
     # Compute answer
      
     # are_iso, h = are_iso_with_colors(A, B, color_ones)
-    are_iso, h = are_iso_with_colors(A, B, color_degree)
-    # are_iso, h = are_iso_with_colors(A, B, lambda x : color_k_neigh(x, 2))
+    # are_iso, h = are_iso(A, B)
+    # are_iso, h = are_iso_with_colors(A, B, color_degree)
+    are_iso, h = are_iso_with_colors(A, B, lambda x: color_k_neigh(x, 2))
      
     # Check results
 
@@ -171,7 +221,6 @@ if __name__ == "__main__":
                     print("Correct answer")
                 else:
                     print("Wrong answer: incorrect mapping")
-                
-            
 
-        
+    end = timer()
+    print(end - start)
