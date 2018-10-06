@@ -91,46 +91,79 @@ def color_k_neigh(A, k):
     The colors have to be structured as a sorted tuple of pairs (k, deg(v)) 
     """
 
-    n = len(A)
-
+    # TO COMPLETE
+    
+    n = len(A) #Longueur de A
+    
+    #Matrice nulle
+    AkNext = []
+    for x in range(0, n):
+        AkNext.append([])
+        for y in range(0, n):
+            AkNext[x].append(0)
+    #List a renvoyer
     tuplist = []
     for x in range(0, n):
         tuplist.append([])
-
-    Ak = A
-
-    if k == 0:
-        for i in range(0, n):
-            tuplist.append((0, sum(A[i])))
-        return tuplist
-
-    if k == 1:
-        for i in range(0, n):
-            for j in range(0, n):
-                if A[i][j] != 0:
-                    tuplist[i].append((1, sum(A[j])))
-        return tuplist
-
-    klist = A
+    
+    #Copier ELEMENT PAR ELEMENT A dans Ak
+    Ak = []
     for x in range(0, n):
-        klist[x][x] = 1
+        Ak.append([])
+        for y in range(0, n):
+            Ak[x].append(A[x][y])
+    
+    #Garde en memoire les chemins deja comptes: 1 = pas encore compte, 0 = counted       
+    klist = []
+    for x in range(0, n):
+        klist.append([])
+        for y in range(0, n):
+            klist[x].append(1)
+   
 
-    for x in range(1, k):
-        for i in range(len(Ak)):
-            for j in range(len(A[0])):
-                for k in range(len(A)):
-                    Ak[i][j] += Ak[i][k] * A[k][j]
-        if x != k:
+    #d itere toutes les valeurs de k, de 0 a k compris
+    for d in range(0,k+1):
+        
+        #Cas singulier k == 0 : tout les noeuds sont a une distance 0 de eux meme
+        if d == 0:
             for i in range(0, n):
-                for j in range(i, n):
-                    if Ak[i][j] != 0:
-                        klist[i][j] = 1
+                tuplist[i].append((0, sum(A[i])))
+                klist[i][i] = 0
 
-    for i in range(0, n):
-        for j in range(i, n):
-            if klist[i][j] == 0 and Ak[i][j] != 0:
-                tuplist[i].append((k, sum(A[j])))
-        sorted(tuplist[i], key=lambda tup: tup[1])
+            
+        #Cas singulier k == 1 : on utilise la matrice A^1
+        elif d == 1:
+            for i in range(0, n):
+                for j in range(0, n):
+                    if klist[i][j] == 1 and A[i][j] != 0:
+                        tuplist[i].append((1, sum(A[j])))
+                        tuplist[i] = sorted(tuplist[i])
+                        klist[i][j] = 0
+                        
+        #Cas quelconque
+        else:
+
+            #Calcul de A^k
+            for i in range(0, n):
+                for j in range(0, n):
+                       for m in range(0, n):
+                           #Matrice nulle = Ak * A
+                           AkNext[i][j] += Ak[i][m] * A[m][j]
+
+            for x in range(0, n):
+                for y in range(0, n):
+                    #Copier ELEMENT PAR ELEMENT AkNext (=Ak+1) dans Ak et mettre AkNext à 0
+                    Ak[x][y] = AkNext[x][y]
+                    AkNext[x][y] = 0
+            
+            #Construction de tuplist
+            for i in range(0, n):
+                for j in range(0, n):
+                    if klist[i][j] == 1 and A[i][j] != 0:
+                        tuplist[i].append((d, sum(A[j])))
+                        tuplist[i] = sorted(tuplist[i])
+                        klist[i][j] = 0
+
 
     return tuplist
      
