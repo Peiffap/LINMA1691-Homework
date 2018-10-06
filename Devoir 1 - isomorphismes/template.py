@@ -19,9 +19,9 @@ def check_mapping(A, B, h):
 
     n = len(A)
     for x in range(0, n):
-        for y in range(x, n):
-            if A[x][y] != B[h[x]][h[y]]:
-                return False
+            for y in range(x, n):
+                if A[x][y] != B[h[x]][h[y]]:
+                    return False
 
     return True
 
@@ -148,53 +148,78 @@ def are_iso_with_colors(A, B, color=color_ones):
 
     n = len(A)
 
-    colorA = color(A)
-    colorB = color(B)
+    colora = color(A)
+    colorb = color(B)
 
-    Aused = []
-    Bused = []
-    for x in range(0, n):
-        Aused.append(n+1)
-        Bused.append(n+1)
+    h = []
+    aused = []
+    bused = []
+    bskips = []
+
+    for x in range(n):
+        h.append(0)
+        aused.append(0)
+        bused.append(0)
+        bskips.append([])
+        for y in range(n):
+            bskips[x].append(0)
 
     def same_edges(A, B, h, i):
         for x in range(0, n):
-            if h[x] != n+1 and A[i][x] != B[h[i]][h[x]]:
+            if aused[x] == 1 and A[i][x] != B[h[i]][h[x]]:
                 return False
         return True
 
-    def isom_color(A, B, h, hinv, i):
-        if i != n+1 and not same_edges(A, B, h, i):
+    def clean_mat(M, i):
+        for j in range(n):
+            M[i][j] = 0
+
+    def tried_all(colora, colorb, skips):
+        for x in range(n):
+            if skips[0][x] == 0 and colora[0] == colorb[x]:
+                return False
+        return True
+
+    def isom_color(A, B, h, i):
+        if not same_edges(A, B, h, i):
             return False, h
         flag = 0
-        for x in range(0, n):
-            if h[x] == n+1:
+        for x in range(n):
+            if aused[x] == 0:
                 flag = 1
                 break
         if flag == 0:
             return True, h
-        for nodeA in range(0, n):
-            if h[nodeA] == n+1:
-                for nodeB in range(0, n):
-                    if hinv[nodeB] == n+1 and colorA[nodeA] == colorB[nodeB]:
-                        print(nodeA)
-                        print(nodeB)
+        nodeA = 0
+        while nodeA < n:
+            if aused[nodeA] == 0:
+                nodeB = 0
+                while nodeB < n:
+                    if bused[nodeB] == 0 and bskips[nodeA][nodeB] == 0 and colora[nodeA] == colorb[nodeB]:
                         h[nodeA] = nodeB
-                        hinv[nodeB] = nodeA
-                        boole, h = isom_color(A, B, h, hinv, nodeA)
-                        if boole:
+                        aused[nodeA] = 1
+                        bused[nodeB] = 1
+                        truth, h = isom_color(A, B, h, nodeA)
+                        if truth:
                             return True, h
                         elif h:
-                            h[nodeA] = n+1
-                            hinv[nodeB] = n+1
+                            aused[nodeA] = 0
+                            bused[nodeB] = 0
                         else:
                             return False, []
-
-                if h[nodeA] == n+1:
+                    nodeB += 1
+                clean_mat(bskips, nodeA)
+                nodeA -= 1
+                bskips[nodeA][h[nodeA]] = 1
+                bused[h[nodeA]] = 0
+                aused[nodeA] = 0
+                nodeA -= 1  # bc +1 is gonna happen below
+                if nodeA < 0 and tried_all(colora, colorb, bskips):
                     return False, []
+            nodeA += 1
         return False, []
 
-    return isom_color(A, B, Aused, Bused, n+1)
+    return isom_color(A, B, h, 0)
 
 
 if __name__ == "__main__":
@@ -218,11 +243,10 @@ if __name__ == "__main__":
             
     # Compute answer
 
-    for i in range(0, 1000):
-        are_iso, h = are_iso_with_colors(A, B, color_ones)
-    #are_iso, h = are_iso(A, B)
     #for i in range(0, 1000):
-    #    are_iso, h = are_iso_with_colors(A, B, color_degree)
+    #    are_iso, h = are_iso_with_colors(A, B, color_ones)
+    #are_iso, h = are_iso(A, B)
+    are_iso, h = are_iso_with_colors(A, B, color_degree)
     # are_iso, h = are_iso_with_colors(A, B, lambda x: color_k_neigh(x, 2))
      
     # Check results
