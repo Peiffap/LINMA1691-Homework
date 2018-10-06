@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ed3dfc30-5a3a-409d-bf8c-ec4857c3bf1a" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HW1.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/HW1.pdf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/in2.csv" beforeDir="false" afterPath="$PROJECT_DIR$/in2.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/template.py" beforeDir="false" afterPath="$PROJECT_DIR$/template.py" afterDir="false" />
-    </list>
+    <list default="true" id="ed3dfc30-5a3a-409d-bf8c-ec4857c3bf1a" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -14,7 +9,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/Devoir_1___isomorphismes$template.coverage" NAME="template Coverage Results" MODIFIED="1538861280149" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Devoir_1___isomorphismes$template.coverage" NAME="template Coverage Results" MODIFIED="1538861677179" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="DatabaseView">
     <option name="SHOW_INTERMEDIATE" value="true" />
@@ -34,7 +29,7 @@
     <session id="1770192993">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="3" />
+          <entry key="project.closed" value="4" />
           <entry key="project.open.time.11" value="1" />
           <entry key="project.open.time.4" value="1" />
           <entry key="project.open.time.8" value="2" />
@@ -75,12 +70,12 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/template.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="183">
-              <caret line="158" column="22" lean-forward="true" selection-start-line="158" selection-start-column="22" selection-end-line="158" selection-end-column="22" />
+            <state relative-caret-position="202">
+              <caret line="224" column="26" lean-forward="true" selection-start-line="224" selection-start-column="26" selection-end-line="224" selection-end-column="26" />
               <folding>
                 <element signature="e#138#154#0" expanded="true" />
-                <marker date="1538861367000" expanded="true" signature="4122:4264" ph="..." />
-                <marker date="1538861367000" expanded="true" signature="5653:5659" ph="..." />
+                <marker date="1538861528000" expanded="true" signature="5372:5514" ph="..." />
+                <marker date="1538861528000" expanded="true" signature="6903:6909" ph="..." />
               </folding>
             </state>
           </provider>
@@ -212,14 +207,13 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="10" y="43" width="1260" height="733" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.26190478" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32917318" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32917318" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -265,12 +259,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/template.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="183">
-          <caret line="158" column="22" lean-forward="true" selection-start-line="158" selection-start-column="22" selection-end-line="158" selection-end-column="22" />
+        <state relative-caret-position="202">
+          <caret line="224" column="26" lean-forward="true" selection-start-line="224" selection-start-column="26" selection-end-line="224" selection-end-column="26" />
           <folding>
             <element signature="e#138#154#0" expanded="true" />
-            <marker date="1538861367000" expanded="true" signature="4122:4264" ph="..." />
-            <marker date="1538861367000" expanded="true" signature="5653:5659" ph="..." />
+            <marker date="1538861528000" expanded="true" signature="5372:5514" ph="..." />
+            <marker date="1538861528000" expanded="true" signature="6903:6909" ph="..." />
           </folding>
         </state>
       </provider>

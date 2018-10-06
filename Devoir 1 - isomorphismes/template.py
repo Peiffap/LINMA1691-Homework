@@ -152,7 +152,7 @@ def color_k_neigh(A, k):
 
             for x in range(0, n):
                 for y in range(0, n):
-                    #Copier ELEMENT PAR ELEMENT AkNext (=Ak+1) dans Ak et mettre AkNext à 0
+                    #Copier ELEMENT PAR ELEMENT AkNext (=Ak+1) dans Ak et mettre AkNext a 0
                     Ak[x][y] = AkNext[x][y]
                     AkNext[x][y] = 0
             
