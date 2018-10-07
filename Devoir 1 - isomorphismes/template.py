@@ -91,8 +91,6 @@ def color_k_neigh(A, k):
     The colors have to be structured as a sorted tuple of pairs (k, deg(v)) 
     """
 
-    # TO COMPLETE
-    
     n = len(A) #Longueur de A
     
     #Matrice nulle
@@ -139,7 +137,10 @@ def color_k_neigh(A, k):
                         tuplist[i].append((1, sum(A[j])))
                         tuplist[i] = sorted(tuplist[i])
                         klist[i][j] = 0
-                        
+                    elif klist[i][j] == 0:
+                        tuplist[i].append((1, sum(A[j])))
+                        tuplist[i] = sorted(tuplist[i])
+        
         #Cas quelconque
         else:
 
@@ -152,18 +153,33 @@ def color_k_neigh(A, k):
 
             for x in range(0, n):
                 for y in range(0, n):
-                    #Copier ELEMENT PAR ELEMENT AkNext (=Ak+1) dans Ak et mettre AkNext a 0
+                    #Copier ELEMENT PAR ELEMENT AkNext (=Ak+1) dans Ak et mettre AkNext à 0
                     Ak[x][y] = AkNext[x][y]
                     AkNext[x][y] = 0
             
             #Construction de tuplist
             for i in range(0, n):
                 for j in range(0, n):
-                    if klist[i][j] == 1 and A[i][j] != 0:
+                   # if i == 0:
+                        
+                       # print("klist={}".format(klist))
+                       # print("Ak={}".format(Ak))
+                    if klist[i][j] == 0:
+                       # print("if1, j = {}".format(j))
+                        tuplist[i].append((d, sum(A[j])))
+                        tuplist[i] = sorted(tuplist[i])
+                        
+                    elif klist[i][j] == 1 and Ak[i][j] != 0:
+                       # print("if2, j = {}".format(j))
                         tuplist[i].append((d, sum(A[j])))
                         tuplist[i] = sorted(tuplist[i])
                         klist[i][j] = 0
-
+                    """elif klist[i][j] == 0:
+                        tuplist[i].append((d, sum(A[j])))
+                        tuplist[i] = sorted(tuplist[i])"""
+                      
+    for i in range (0, n):
+        tuplist[i] = tuple(tuplist[i])
 
     return tuplist
      
