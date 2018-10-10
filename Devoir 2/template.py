@@ -22,7 +22,35 @@ def shortest_path_1(maze):
         See project statement for more details
     """
 
+    wall, clear, goal = "#", ".", "E"
+    height = len(maze)
+    width = len(maze[0])
+
+    def find_start(grid):
+        for i in range(len(grid)):
+            for j in range(len(grid[0])):
+                if grid[i][j] == 'S':
+                    return tuple([j, i])
+
+    start = find_start(maze)
+
+    queue = deque([[start]])
+
+    seen = set([start])
+    while queue:
+        path = queue.popleft()
+        x, y = path[-1]
+        if maze[y][x] == goal:
+            return len(path)-1
+        for (x2, y2) in ((x + 1, y), (x - 1, y), (x, y + 1), (x, y - 1)):
+            if 0 <= x2 < width and 0 <= y2 < height and maze[y2][x2] != wall and (x2, y2) not in seen:
+                queue.append(path + [(x2, y2)])
+                seen.add((x2, y2))
+
     return -1
+
+
+
 
 def shortest_path_2(tasks, paths):
     """ 
@@ -43,7 +71,7 @@ if __name__ == "__main__":
 
     # Read Input for the first exercice
     
-    with open('in1.txt', 'r') as fd:
+    with open('in3.txt', 'r') as fd:
         l = fd.readline()
         l = l.split(' ')
         
@@ -71,7 +99,7 @@ if __name__ == "__main__":
             print("Exercice 1 : Correct")
         else:
             print("Exercice 1 : Wrong answer")
-            print("Your output : %d ; Correct answer : %" % (ans1, expected_output)) 
+            print("Your output : %d ; Correct answer : %d" % (ans1, expected_output))
         
     # Read Input for the second exercice
     
@@ -84,7 +112,7 @@ if __name__ == "__main__":
         tasks = [int(x) for x in fd.readline().split(' ')]
         
         paths = []
-        for paths in range(n):
+        for i in range(n):
             l = fd.readline().split(' ')
             paths.append(tuple([int(x) for x in l]))
             
