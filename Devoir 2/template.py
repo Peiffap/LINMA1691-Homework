@@ -63,8 +63,76 @@ def shortest_path_2(tasks, paths):
           
         See project statement for more details
     """
+    # Return the lowest positive value of v
+    def indexMin(v):
+        index = -1
+        found = 0
+        for i in range(1,len(v)):
+            if v[i] > -1:
+                if found == 0:
+                    res = v[i]
+                    index = i
+                    found = 1
+                else:
+                    if v[i] < res:
+                        res = v[i]
+                        index = i
+        if found == 0:
+            return -1
+        else:
+            return index
+    
+    # Number of tasks
+    N = len(tasks)
+    A = []   
+    # List des meilleurs chemins
+    best = []
+    tab = []
+    
+    # Initialiazing of A tab and best
+    for i in range(0, N):        
+        A.append([])
+        tab.append([])
+        best.append(0)
+        for j in range(0, N):                           
+                A[i].append(-1)
+                tab[i].append(0)
+                
+    # Computation oh the weight of each arete            
+    for i in range(0, len(paths)):        
+        A[paths[i][0]-1][paths[i][1]-1] = paths[i][2] + tasks[paths[i][1]-1]
+    
+    # Dijkstra
+    for i in range(0, N):
+        tab[0][i] = A[0][i]
+    tab[0][0] = -2
+       
+    current_node = indexMin(tab[0])
+    current_weight = A[0][current_node]
+    best[0] = 0
+    best[current_node] = current_weight
+    tab[0][current_node] = -2
 
-    return -1
+    for i in range(1, N):
+        
+        for j in range(0, N):
+            if tab[i-1][j] == -2: #deja defini best
+                tab[i][j] = -2
+            elif tab[i-1][j] == -1: #inf
+                tab[i][j] = A[current_node][j] + current_weight
+            else:
+                tab[i][j] = min(tab[i-1][j],A[current_node][j] + current_weight)
+                
+        current_node = indexMin(tab[i])
+        if (current_node == -1):
+            break
+        current_weight = tab[i][current_node]
+        best[current_node] = current_weight
+        tab[i][current_node] = -2
+        if current_node == N-1:
+            break
+
+    return best[N-1] + tasks[0]
 
 
 if __name__ == "__main__":
