@@ -61,11 +61,6 @@ def shortest_path_2(tasks, paths):
           
         See project statement for more details
     """
-    paths[1] = tuple((1,2,10))
-    paths[0] = tuple((2,1,1))
-    print(paths)
-    print(tasks)
-    
     # Return the lowest positive value of v
     def indexMin(v):
         index = -1
@@ -86,12 +81,16 @@ def shortest_path_2(tasks, paths):
     
     # Number of tasks
     N = len(tasks)
+    
+    # "Adjacence matrix"
     A = []   
-    # List des meilleurs chemins
+    
+    # List of the best ways
     best = []
+    
     tab  = []
-    #N = 4
-    # Initialiazing of A tab and best
+
+    # Initialiazing of A, tab and best
     for i in range(0, N):        
         A.append([])
         tab.append([])
@@ -99,21 +98,12 @@ def shortest_path_2(tasks, paths):
         for j in range(0, N):                           
                 A[i].append(-1)
                 tab[i].append(0)
-    
-            
-    # Computation oh the weight of each arete            
-    for i in range(0, len(paths)):
-        if (A[paths[i][0]-1][paths[i][1]-1] == -1):
-            A[paths[i][0]-1][paths[i][1]-1] = paths[i][2] + tasks[paths[i][1]-1]
-        else:
-            A[paths[i][0]-1][paths[i][1]-1] = min(A[paths[i][0]-1][paths[i][1]-1], paths[i][2] + tasks[paths[i][1]-1])
                 
-    
-    #print(A)
-    #A = [[-1, 10, -1, -1, 2, -1],[-1, -1, 2, -1, -1, 10],[-1, -1, -1, -1, -1, 2],[-1, 2, -1, -1, -1, 10],[-1, -1, -1, 2, -1, -1],[-1, -1, -1, -1, -1, -1]]
-    #A = [[-1,2,2,-1],[-1,-1,-1,10],[-1,-1,-1,1],[-1,-1,-1,-1]]
-    #print("\nA = {}\n".format(A))
-    #N = 6
+    # Computation oh the weight of each arete            
+    for i in range(0, len(paths)):        
+        A[paths[i][0]-1][paths[i][1]-1] = paths[i][2] + tasks[paths[i][1]-1]
+        A[paths[i][1]-1][paths[i][0]-1] = paths[i][2] + tasks[paths[i][0]-1]
+
     # Dijkstra
     for i in range(0, N):
         tab[0][i] = A[0][i]
@@ -129,7 +119,7 @@ def shortest_path_2(tasks, paths):
         
         for j in range(0, N):
 
-            if tab[i-1][j] == -2: #deja defini best
+            if tab[i-1][j] == -2: # Already in best
                 tab[i][j] = -2
             elif tab[i-1][j] == -1: #inf
                 if A[current_node][j] == -1:
@@ -137,13 +127,11 @@ def shortest_path_2(tasks, paths):
                 else:
                     tab[i][j] = A[current_node][j] + current_weight
             else:
-
                 if A[current_node][j] == -1:
                     tab[i][j] = tab[i-1][j]
                 else:
-                    tab[i][j] = min(tab[i-1][j],A[current_node][j] + current_weight)
-                
-                
+                    tab[i][j] = min(tab[i-1][j], A[current_node][j] + current_weight)
+                                
         current_node = indexMin(tab[i])
         if (current_node == -1):
             break
@@ -153,7 +141,6 @@ def shortest_path_2(tasks, paths):
         if current_node == N-1:
             break
         
-    #print("best = {}\n tab = {}\n".format(best,tab))
     return best[N-1] + tasks[0]
 
 
