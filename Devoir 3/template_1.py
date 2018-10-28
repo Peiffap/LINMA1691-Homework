@@ -16,12 +16,15 @@ def spanning_tree_1(N, roads):
         
         See homework statement for more details
     """
-    
+    print(roads)
+    roads.append((0,1,10))
+  
     # We construct a "arbre sous tendant de poids min" and we sum the weight
     # of the roads left out of this tree
     
     # Pas sur que c'est bon
     # Sorting roads by weight
+    
     roads = sorted(roads,key=lambda tup: tup[2])
     M = len(roads)
     
@@ -34,15 +37,16 @@ def spanning_tree_1(N, roads):
     n = 0
     
     # i is the index of the current road
-    # M is the current number of arete left
+    # M is the current number of road left
     i = 0
     while(i < M):
         #print("M = {}, i = {}, n = {}, roads = {}".format(M,i,n,roads))
         u = roads[i][0]
         v = roads[i][1]
         
+        # if u = v we dont take it
         # if u and v are in S (->S[u]=S[v]=1 then the arete i will form a cycle
-        if (S[u] == 0 or S[v] == 0):
+        if ( (u != v) and (S[u] == 0 or S[v] == 0) ):
             
             # if S[u] = S[v] = 0
             if(S[u] == S[v]):
@@ -52,12 +56,18 @@ def spanning_tree_1(N, roads):
             S[u] = 1
             S[v] = 1
             del roads[i]
-            M = M - 1
+            M -= 1
+            
+            # all nodes are in S : we stop
             if (n == N):
                 break
         else:
             i += 1
-
+    # if all nodes are not reachable then ?
+    if (n != N):
+        return 0
+   
+    
     # Satisfaction is the sum of the roads left
     return sum([road[2] for road in roads])
 
