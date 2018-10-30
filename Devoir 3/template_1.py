@@ -16,57 +16,41 @@ def spanning_tree_1(N, roads):
         
         See homework statement for more details
     """
-    print(roads)
-    roads.append((0,1,10))
-  
-    # We construct a "arbre sous tendant de poids min" and we sum the weight
-    # of the roads left out of this tree
     
-    # Pas sur que c'est bon
     # Sorting roads by weight
-    
     roads = sorted(roads,key=lambda tup: tup[2])
-    M = len(roads)
+    # M_init is the initial number of road
+    M_init = len(roads)
     
-    # S saves the nodes already in the tree
-    # S[i] = 0 if the node is not in yet
-    # S[i] = 1 if the node is already in
-    S = [0]*N
-
-    # n = nonzero element of S
-    n = 0
+    # M is the current number of road left
+    M = M_init
+    
+    # P is a partition of the graph
+    P = [i for i in range(0,N)]
     
     # i is the index of the current road
-    # M is the current number of road left
     i = 0
+    
     while(i < M):
-        #print("M = {}, i = {}, n = {}, roads = {}".format(M,i,n,roads))
+        #print("M = {}, i = {}, P = {}, roads = {}".format(M,i,P,roads))
         u = roads[i][0]
         v = roads[i][1]
         
-        # if u = v we dont take it
-        # if u and v are in S (->S[u]=S[v]=1 then the arete i will form a cycle
-        if ( (u != v) and (S[u] == 0 or S[v] == 0) ):
-            
-            # if S[u] = S[v] = 0
-            if(S[u] == S[v]):
-                n += 2
-            else:
-                n += 1
-            S[u] = 1
-            S[v] = 1
-            del roads[i]
+        # if u and v are not in the same partition then put them together
+        if (P[u] != P[v]):
+            # union the partitions
+            Pv = P[v]
+            for j in range(0,N):
+                if P[j] == Pv:
+                    P[j] = P[u]
+            del roads[i] 
             M -= 1
-            
-            # all nodes are in S : we stop
-            if (n == N):
+                  
+            # M_init - M is the number of aretes in the tree
+            if (M_init - M == N - 1):
                 break
         else:
             i += 1
-    # if all nodes are not reachable then ?
-    if (n != N):
-        return 0
-   
     
     # Satisfaction is the sum of the roads left
     return sum([road[2] for road in roads])
