@@ -231,7 +231,7 @@ if __name__ == "__main__":
 
     # Read Input for the first exercise
 
-    with open('in3.txt', 'r') as fd:
+    with open('in1.txt', 'r') as fd:
         l = fd.readline()
         l = l.split(' ')
 
@@ -244,12 +244,11 @@ if __name__ == "__main__":
             maze.append(list(l))
 
     # Compute answer for the first exercise
-    maze = MazeGenerator(1000, 1000)
     a = timer()
     ans1 = shortest_path_1(maze)
 
     b = timer()
-    print(b-a)
+    print("Execution time (exo 1):", b-a)
 
     # Check results for the first exercise
 

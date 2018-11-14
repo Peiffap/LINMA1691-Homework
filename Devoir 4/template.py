@@ -5,7 +5,8 @@
 """
 
 import math
-    
+
+
 def matching(T, friends, hiding_places):
     """ 
     INPUT : 
@@ -21,7 +22,19 @@ def matching(T, friends, hiding_places):
     
     ans = 0
 
-    # TO COMPLETE
+    adj_mat = []
+    for i in range(len(friends)):
+        adj_mat.append([])
+        for j in range(len(hiding_places)):
+            distx = hiding_places[j][0] - friends[i][0]
+            disty = hiding_places[j][1] - friends[i][1]
+            time = math.sqrt(distx*distx + disty*disty)/friends[i][2]
+            adj_mat[i].append(time)
+
+    matching = []
+    while len(matching) < min(len(friends), len(hiding_places)):
+
+        a = 1
 
     return ans
 
@@ -34,8 +47,8 @@ if __name__ == "__main__":
         l = fd.readline()
         l = l.rstrip().split(' ')
         
-        n, m, T = int(l[0]), int(l[1]), int(l[2])
-        
+        m, n, T = int(l[0]), int(l[1]), int(l[2])  # fixed maybe?
+
         friends = []
         for friend in range(n):
             l = fd.readline().rstrip().split()
@@ -60,5 +73,4 @@ if __name__ == "__main__":
             print("Test sample : Correct")
         else:
             print("Test sample : Wrong answer")
-            print("Your output : %d ; Correct answer : %d" % (ans, expected_output)) 
-        
+            print("Your output : %d ; Correct answer : %d" % (ans, expected_output))
